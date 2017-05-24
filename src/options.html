@@ -1,9 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title></title>
+  <title>Options - Concerts Near You!</title>
+  <style>
+    body: { padding: 10px; }
+  </style>
 </head>
+
 <body>
+  How far you want me look for concerts?:
+  <select id="range">
+   <option value="1">1 mile</option>
+   <option value="50">50 miles</option>
+   <option value="150">150 miles</option>
+   <option value="-1">Wherever you can</option>
+  </select>
+
+  <div id="status"></div>
+  <button id="save">Save</button>
+  <button id="close">Close</button>
+  <script src="options.js"></script>
 </body>
 </html>
