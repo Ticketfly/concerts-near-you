@@ -6,6 +6,18 @@ import getSecretURL from './utils/get-secret-url';
 import LoadingData from './loading_data';
 import SimilarEvents from './similar_events';
 import "../../css/event-section.css";
+import HeaderComponent from './header_component';
+
+const ulStyle = {
+  listStyle: 'none',
+  padding: 0,
+  width: '336px'
+};
+
+const updateStyle = {
+  float: 'right',
+  cursor: 'pointer'
+}
 
 class EventSection extends Component {
   constructor(props) {
@@ -20,12 +32,28 @@ class EventSection extends Component {
       events: [],
       isLoading: false,
       range: props.range,
+      geoLocatedCity: 'San Francisco, CA 94107',
       url: getSecretURL(encodeURIComponent(props.artist), null, props.range) // this will hopefully change tomorrow ^^
     };
   }
 
   componentDidMount() {
     this.findCurrentLocation();
+  }
+
+  getGeolocationData(lat = this.state.geolocation.latitude, lng = this.state.geolocation.longitude) {
+    debugger;
+    fetch(`http://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}`)
+      .then((r) => r.json())
+      .then((results) => {
+        if (results && results.results) {
+            const geoLocatedCity = results.results[0].formatted_address;
+            console.log(geoLocatedCity, results);
+            this.setState({
+              geoLocatedCity
+            });
+        }
+      }).catch(console.log);
   }
 
   findCurrentLocation() {
@@ -40,7 +68,7 @@ class EventSection extends Component {
     // 3. ask for a zip code and update secretURl if they pass in a zip code or want to change to a new location
     if (navigator.geolocation && !this.state.geolocation) {
       const setState = this.setState;
-
+      console.log('getting location');
       navigator.geolocation.getCurrentPosition((position) => {
         console.log(`location found long: ${position.coords.longitude} lat: ${position.coords.latitude}`);
 
@@ -49,8 +77,10 @@ class EventSection extends Component {
           url: getSecretURL(encodeURIComponent(this.state.artist), position.coords, this.state.range)
         });
 
+        this.getGeolocationData(position.coords.latitude,position.coords.longitude);
+
         this.queryArtist();
-      });
+      }, () => this.queryArtist());
     } else {
       console.log("Browser does not support geolocation.");
       this.queryArtist();
@@ -62,10 +92,10 @@ class EventSection extends Component {
     console.log("requesting url ", this.state.url);
     if (artistName) {
       fetch(this.state.url).then(r => r.json()).then(({ _embedded }) => {
-
         if (!_embedded) {
           this.setState({
-            isLoading: false
+            isLoading: false,
+            events: []
           });
           return;
         }
@@ -123,12 +153,27 @@ class EventSection extends Component {
     });
   }
 
+  onSelectRange(e) {
+    const range = e.target.value;
+    const url = getSecretURL(encodeURIComponent(this.state.artist), this.state.geolocation, range);
+    this.setState({
+      range,
+      url,
+      isLoading: true
+    }, () => {
+      console.log('updating', range, url);
+      this.queryArtist();
+    });
+  }
+
   render() {
     if (this.state.isLoading) {
       return <LoadingData artist={this.state.artist} range={this.state.range}/>
     }
     return (
       <div>
+        <HeaderComponent range={this.state.range} onSelectRange={(e) => this.onSelectRange(e)} geoLocatedCity={this.state.geoLocatedCity} />
+
         <a className='event-section__refresh' onClick={this.updateArtist}>Refresh</a>
         <IfEvents
           artist={this.state.artist}
