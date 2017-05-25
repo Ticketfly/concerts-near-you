@@ -13,18 +13,24 @@ body {
 
 .map-animation-leave {
   opacity: 1;
+  transform: translateY(300px);
+  transition: all 300ms ease-in;
 }
 
 .map-animation-leave.map-animation-leave-active {
   opacity: 0.01;
-  transition: opacity 300ms ease-in;
+  transform: translateY(300px);
+  transition: all 300ms ease-in;
 }
 
 .map-animation-appear {
   opacity: 0.01;
+  transform: translateY(300px);
+  transition: all 300ms ease-in;
 }
 
 .map-animation-appear.map-animation-appear-active {
   opacity: 1;
-  transition: opacity .5s ease-in;
+  transform: translateY(0);
+  transition: all 300ms ease-in;
 }

@@ -21,6 +21,14 @@ const updateStyle = {
   cursor: 'pointer'
 }
 
+const mapStyle = {
+  position: 'absolute',
+  bottom: '0',
+  left: '0',
+  width: '100%',
+  boxShadow: 'rgba(0, 0, 0, 0.15) 0px -10px 20px 0px'
+}
+
 class EventSection extends Component {
   constructor(props) {
     super(props);
@@ -196,10 +204,10 @@ class EventSection extends Component {
             transitionEnterTimeout={500}
             transitionLeaveTimeout={300}
             transitionAppear={true}
-            transitionAppearTimeout={1500}
+            transitionAppearTimeout={500}
             transitionEnter={false}
             transitionLeave={false}>
-            <div className="map-section">
+            <div style={mapStyle} className="map-section">
               <MapSection events={this.state.events} geolocation={this.state.geolocation}/>
             </div>
           </CSSTransitionGroup>)
