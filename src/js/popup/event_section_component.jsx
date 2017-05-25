@@ -4,26 +4,18 @@ import NoEvents from './no_events_component';
 import PropTypes from 'prop-types';
 import { getSecretURL } from "secrets";
 import LoadingData from './loading_data';
-
-const ulStyle = {
-  listStyle: 'none',
-  padding: 0,
-  width: '336px'
-};
-
-const updateStyle = {
-  float: 'right',
-  cursor: 'pointer'
-}
+import SimilarEvents from './similar_events';
+import "../../css/event-section.css";
 
 class EventSection extends Component {
   constructor(props) {
     super(props);
-    
+
     console.log('props', props);
-    
+
     this.state = {
       artist: props.artist,
+      similarArtists: props.similarArtists,
       geolocation: null,
       events: [],
       isLoading: false,
@@ -41,7 +33,7 @@ class EventSection extends Component {
     this.setState({
       isLoading: true
     });
-      
+
     // TO DO
     // 1. Create a separate secret function for location
     // 2. show in plugin that browser does not support geolocation thus requiring user to change permissions
@@ -56,7 +48,7 @@ class EventSection extends Component {
           geolocation: position.coords,
           url: getSecretURL(encodeURIComponent(this.state.artist), position.coords, this.state.range)
         });
-        
+
         this.queryArtist();
       });
     } else {
@@ -137,8 +129,8 @@ class EventSection extends Component {
     }
     return (
       <div>
-        <a style={updateStyle} onClick={this.updateArtist}>Refresh</a>
-        <IfEvents events={this.state.events}/>
+        <a className='event-section__refresh' onClick={this.updateArtist}>Refresh</a>
+        <IfEvents events={this.state.events} similarArtists={this.state.similarArtists} geolocation={this.state.geolocation}/>
       </div>
     )
   }
@@ -150,9 +142,14 @@ function IfEvents(props) {
       <EventItem key={event.eventId} event={event} />
     );
     return (
-        <ul style={ulStyle}>
+      <div>
+        <ul>
           {eventItems}
         </ul>
+
+        <SimilarEvents similarArtists={props.similarArtists} geolocation={props.geolocation}/>
+      </div>
+
     );
   }
   return <NoEvents />
