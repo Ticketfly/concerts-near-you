@@ -15,7 +15,9 @@ const linkStyle = {
   flexGrow: 1,
   border: 'none',
   background: 'none',
-  color: '#33AF80'
+  color: '#33AF80',
+  outline: 0,
+  cursor: 'pointer'
 }
 
 const selectStyle = {
@@ -30,7 +32,8 @@ const selectStyle = {
 const cityStyle = {
   textAlign: 'center',
   flexGrow: 2,
-  color: '#949191'
+  color: '#949191',
+  cursor: 'default'
 }
 
 class HeaderComponent extends React.Component {
