@@ -13,8 +13,7 @@ import PropTypes from 'prop-types';
 
     return (
       <div>
-        <EventSection artist={artist} range={range} />
-        <SimilarEvents similarArtists={similarArtists} />
+        <EventSection artist={artist} similarArtists={similarArtists} range={range} />
       </div>
     );
   }

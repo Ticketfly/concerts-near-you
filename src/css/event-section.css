@@ -1,0 +1,11 @@
+ul {
+  listStyle: none;
+  padding: 0;
+  width: 336px;
+}
+
+.event-section__refresh {
+  display: block;
+  cursor: pointer;
+  text-align: right;
+}
