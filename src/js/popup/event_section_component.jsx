@@ -130,7 +130,12 @@ class EventSection extends Component {
     return (
       <div>
         <a className='event-section__refresh' onClick={this.updateArtist}>Refresh</a>
-        <IfEvents events={this.state.events} similarArtists={this.state.similarArtists} geolocation={this.state.geolocation}/>
+        <IfEvents
+          events={this.state.events}
+          similarArtists={this.state.similarArtists}
+          geolocation={this.state.geolocation}
+          range={this.state.range}
+        />
       </div>
     )
   }
@@ -147,7 +152,7 @@ function IfEvents(props) {
           {eventItems}
         </ul>
 
-        <SimilarEvents similarArtists={props.similarArtists} geolocation={props.geolocation}/>
+        <SimilarEvents similarArtists={props.similarArtists} geolocation={props.geolocation} range={props.range}/>
       </div>
 
     );
