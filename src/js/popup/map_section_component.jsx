@@ -12,21 +12,14 @@ const AsyncGettingStartedExampleGoogleMap = withScriptjs(
     props => (
       <GoogleMap
           ref={props.onMapLoad}
-<<<<<<< 41b52a43e49e4e31fcd4e1c05b41da51c11366ab
           defaultZoom={8}
-=======
-          defaultZoom={2}
->>>>>>> progress
           defaultCenter ={props.geolocation}
           onClick={props.onMapClick}
       >
           {props.markers.map((marker, index) => (
           <Marker
               {...marker}
-<<<<<<< 41b52a43e49e4e31fcd4e1c05b41da51c11366ab
               onClick={()=> props.onMarkerClick(marker)}
-=======
->>>>>>> progress
               onRightClick={() => props.onMarkerRightClick(index)}
           />
           ))}
@@ -65,10 +58,6 @@ class MapSection extends Component {
       geolocation: props.geolocation,
       markers: markers
     };
-<<<<<<< 41b52a43e49e4e31fcd4e1c05b41da51c11366ab
-=======
-
->>>>>>> progress
   }
 
   render() {

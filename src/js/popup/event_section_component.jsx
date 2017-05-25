@@ -126,7 +126,7 @@ class EventSection extends Component {
             const id = event.id;
             const url = event.url;
             const location = event._embedded.venues[0].location;
-            
+
             return {
               date,
               venue,
