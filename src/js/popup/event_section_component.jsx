@@ -7,6 +7,7 @@ import LoadingData from './loading_data';
 import SimilarEvents from './similar_events';
 import "../../css/event-section.css";
 import HeaderComponent from './header_component';
+import InputComponent from './input_component';
 
 const ulStyle = {
   listStyle: 'none',
@@ -33,6 +34,7 @@ class EventSection extends Component {
       isLoading: false,
       range: props.range,
       geoLocatedCity: 'San Francisco, CA 94107',
+      zipcode: null,
       url: getSecretURL(encodeURIComponent(props.artist), null, props.range) // this will hopefully change tomorrow ^^
     };
   }
@@ -47,9 +49,12 @@ class EventSection extends Component {
       .then((results) => {
         if (results && results.results) {
             const geoLocatedCity = results.results[0].formatted_address;
+            const geoLocatedZipCode = results.results[0].address_components[7].short_name
             console.log(geoLocatedCity, results);
+
             this.setState({
-              geoLocatedCity
+              geoLocatedCity: geoLocatedCity,
+              geoLocatedZipCode: geoLocatedZipCode
             });
         }
       }).catch(console.log);
@@ -88,6 +93,7 @@ class EventSection extends Component {
 
   queryArtist() {
     const artistName = this.state.artist;
+
     console.log("requesting url ", this.state.url);
     if (artistName) {
       fetch(this.state.url).then(r => r.json()).then(({ _embedded }) => {
@@ -161,6 +167,16 @@ class EventSection extends Component {
       isLoading: true
     }, () => {
       console.log('updating', range, url);
+    })
+  }
+
+  onInputChange(input) {
+    const zipcode = input.target.value;
+    const url = getSecretURL(encodeURIComponent(this.state.artist), null, this.state.range, zipcode);
+    this.setState({
+      zipcode: zipcode,
+      url: url
+    }, () => {
       this.queryArtist();
     });
   }
@@ -172,15 +188,16 @@ class EventSection extends Component {
     return (
       <div>
         <HeaderComponent range={this.state.range} onSelectRange={(e) => this.onSelectRange(e)} geoLocatedCity={this.state.geoLocatedCity} />
-
         <a className='event-section__refresh' onClick={this.updateArtist}>Refresh</a>
         <IfEvents
           artist={this.state.artist}
           events={this.state.events}
           similarArtists={this.state.similarArtists}
           geolocation={this.state.geolocation}
+          zipcode={this.state.zipcode}
           range={this.state.range}
         />
+        <InputComponent geoLocatedZipCode={this.state.geoLocatedZipCode} inputValue={this.state.zipcode} onInputChange={(input) => this.onInputChange(input)} />
       </div>
     )
   }
