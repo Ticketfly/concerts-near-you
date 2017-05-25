@@ -12,6 +12,6 @@ const noEventStyle = {
   color: '#585858'
 };
 
-const NoEvents = () => (<div style={noEventStyle}>No events found for artist.</div>);
+const NoEvents = ({ artist }) => (<div style={noEventStyle}>No events found for {artist}.</div>);
 
 export default NoEvents;
