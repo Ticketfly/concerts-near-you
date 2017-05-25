@@ -7,6 +7,7 @@ import LoadingData from './loading_data';
 import SimilarEvents from './similar_events';
 import "../../css/event-section.css";
 import HeaderComponent from './header_component';
+import MapSection from './map_section_component';
 
 const ulStyle = {
   listStyle: 'none',
@@ -22,8 +23,6 @@ const updateStyle = {
 class EventSection extends Component {
   constructor(props) {
     super(props);
-
-    console.log('props', props);
 
     this.state = {
       artist: props.artist,
@@ -126,7 +125,8 @@ class EventSection extends Component {
             const image = event.images[0].url;
             const id = event.id;
             const url = event.url;
-
+            const location = event._embedded.venues[0].location;
+            
             return {
               date,
               venue,
@@ -134,7 +134,9 @@ class EventSection extends Component {
               image,
               city,
               eventId: id,
-              url
+              url,
+              lat: parseFloat(location.latitude),
+              lng: parseFloat(location.longitude)
             };
           })
         });
@@ -211,10 +213,12 @@ function IfEvents(props) {
         <ul>
           {eventItems}
         </ul>
+        <div className="map-section">
+          <MapSection events={props.events} geolocation={props.geolocation}/>
+        </div>
 
         <SimilarEvents similarArtists={props.similarArtists} geolocation={props.geolocation} range={props.range}/>
       </div>
-
     );
   }
   return <NoEvents artist={props.artist}/>
