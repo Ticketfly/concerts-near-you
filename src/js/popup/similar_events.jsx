@@ -37,7 +37,6 @@ class SimilarEvents extends Component {
       values.forEach((value, index) => {
         if(value._embedded && value._embedded.events) {
           let newEvents = [...value._embedded.events];
-
           newEvents = newEvents.sort((a,b) => a.distance - b.distance).slice(0, 5).map(event => {
             const date = event.dates.start.dateTime;
             const venue = event._embedded.venues[0].name;
@@ -91,7 +90,7 @@ class SimilarEvents extends Component {
 SimilarEvents.propTypes = {
   similarEvents: PropTypes.array,
   geolocation: PropTypes.object,
-  range: PropTypes.string
+  range: PropTypes.number
 }
 
 export default SimilarEvents;
