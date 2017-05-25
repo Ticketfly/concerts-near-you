@@ -24,7 +24,7 @@ function restore_options() {
   chrome.storage.sync.get({
     range: 100,
   }, function(items) {
-    document.getElementById('range').value = items.range;
+    document.getElementById('range').val(items.range);
   });
 }
 
