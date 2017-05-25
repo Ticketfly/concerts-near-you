@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import EventItem from './event_item_component';
 import NoEvents from './no_events_component';
 import PropTypes from 'prop-types';
-import { getSecretURL } from "secrets";
+import getSecretURL from './utils/get-secret-url';
 import LoadingData from './loading_data';
 import SimilarEvents from './similar_events';
 import "../../css/event-section.css";

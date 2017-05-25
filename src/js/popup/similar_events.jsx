@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SimilarEvent from './similar_event';
 import EventItem from './event_item_component';
 import PropTypes from 'prop-types';
-import { getSecretURL } from "secrets";
+import getSecretURL from './utils/get-secret-url';
 import "../../css/similar-events.css";
 
 class SimilarEvents extends Component {
