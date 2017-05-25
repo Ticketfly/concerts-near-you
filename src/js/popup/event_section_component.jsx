@@ -131,6 +131,7 @@ class EventSection extends Component {
       <div>
         <a className='event-section__refresh' onClick={this.updateArtist}>Refresh</a>
         <IfEvents
+          artist={this.state.artist}
           events={this.state.events}
           similarArtists={this.state.similarArtists}
           geolocation={this.state.geolocation}
@@ -157,7 +158,7 @@ function IfEvents(props) {
 
     );
   }
-  return <NoEvents />
+  return <NoEvents artist={props.artist}/>
 }
 
 EventSection.propTypes = {
