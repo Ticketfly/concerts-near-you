@@ -2,3 +2,29 @@ body {
   margin: 0;
 }
 
+.map-animation-enter {
+  opacity: 0.01;
+}
+
+.map-animation-enter.map-animation-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.map-animation-leave {
+  opacity: 1;
+}
+
+.map-animation-leave.map-animation-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+.map-animation-appear {
+  opacity: 0.01;
+}
+
+.map-animation-appear.map-animation-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}

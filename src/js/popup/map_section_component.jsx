@@ -3,7 +3,7 @@ import EventItem from './event_item_component';
 import NoEvents from './no_events_component';
 import PropTypes from 'prop-types';
 import { getSecretURL } from "secrets";
-import { withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
 import _ from "lodash";
 import withScriptjs from "react-google-maps/lib/async/withScriptjs";
 
@@ -17,11 +17,17 @@ const AsyncGettingStartedExampleGoogleMap = withScriptjs(
           onClick={props.onMapClick}
       >
           {props.markers.map((marker, index) => (
-          <Marker
-              {...marker}
-              onClick={()=> props.onMarkerClick(marker)}
-              onRightClick={() => props.onMarkerRightClick(index)}
-          />
+            <Marker
+                {...marker}
+                onClick={()=> props.onMarkerClick(marker)}
+                onRightClick={() => props.onMarkerRightClick(index)}
+            >
+              {marker.showInfo && (
+                <InfoWindow onCloseClick={() => props.onMarkerClose(marker)}>
+                  <div>{marker.infoContent}</div>
+                </InfoWindow>
+              )}
+            </Marker>
           ))}
       </GoogleMap>
   ))
@@ -42,6 +48,8 @@ class MapSection extends Component {
         lat: event.lat,
         lng: event.lng
       }
+      obj.infoContent = event.name;
+      obj.showInfo = false;
       markers.push(obj);
     });
 
@@ -60,18 +68,62 @@ class MapSection extends Component {
     };
   }
 
+  setMarkers() {
+    const markers = [];
+    const events = this.state.events;
+
+    events.forEach(event => {
+      const obj = {};
+      console.log('event', event);
+      obj.key = event.name;
+      obj.position = {
+        lat: event.lat,
+        lng: event.lng
+      }
+      obj.infoContent = event.name;
+      obj.showInfo = false;
+      markers.push(obj);
+    });
+
+    this.setState({
+      'markers': markers
+    });
+  }
+
   render() {
     const geolocation = {};
 
     geolocation.lat = this.state.geolocation.latitude;
     geolocation.lng = this.state.geolocation.longitude;
 
-    const markerClick = (marker) => {
-      const infoWindow = new google.maps.InfoWindow({
-        content: marker.key
+    const markerClick = (targetMarker) => {
+      this.setState({
+        markers: this.state.markers.map(marker => {
+          if (marker === targetMarker) {
+            return {
+              ...marker,
+              showInfo: true,
+            };
+          }
+          return marker;
+        }),
       });
+    };
 
+    const markerClose = (targetMarker) => {
+      this.setState({
+        markers: this.state.markers.map(marker => {
+          if (marker === targetMarker) {
+            return {
+              ...marker,
+              showInfo: false,
+            };
+          }
+          return marker;
+        }),
+      });
     }
+
     return (
       <AsyncGettingStartedExampleGoogleMap
         googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCL77v5T8j7Httcf4NNwHKTtna02oW2McA"
@@ -81,7 +133,7 @@ class MapSection extends Component {
           </div>
         }
         containerElement={
-            <div style={{ height: `336px`, margin: 20, padding: 20 }} />
+            <div style={{ height: `336px` }} />
         }
         mapElement={
             <div style={{ height: `336px` }} />
@@ -92,6 +144,7 @@ class MapSection extends Component {
         geolocation={geolocation}
         onMarkerRightClick={_.noop}
         onMarkerClick={markerClick}
+        onMarkerClose={markerClose}
       />
     )
   }

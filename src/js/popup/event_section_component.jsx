@@ -8,6 +8,7 @@ import SimilarEvents from './similar_events';
 import "../../css/event-section.css";
 import HeaderComponent from './header_component';
 import MapSection from './map_section_component';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 const ulStyle = {
   listStyle: 'none',
@@ -31,6 +32,7 @@ class EventSection extends Component {
       events: [],
       isLoading: false,
       range: props.range,
+      isMapShown: false,
       geoLocatedCity: 'San Francisco, CA 94107',
       url: getSecretURL(encodeURIComponent(props.artist), null, props.range) // this will hopefully change tomorrow ^^
     };
@@ -181,14 +183,38 @@ class EventSection extends Component {
     });
   }
 
+  onClickShowMap(e) {
+    const isMapShown = this.state.isMapShown;
+    this.setState({
+      isMapShown: !isMapShown
+    });
+  }
+
+  getMapComponent() {
+    return  (<CSSTransitionGroup
+            transitionName="map-animation"
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={300}
+            transitionAppear={true}
+            transitionAppearTimeout={1500}
+            transitionEnter={false}
+            transitionLeave={false}>
+            <div className="map-section">
+              <MapSection events={this.state.events} geolocation={this.state.geolocation}/>
+            </div>
+          </CSSTransitionGroup>)
+}
+
   render() {
     if (this.state.isLoading) {
       return <LoadingData artist={this.state.artist} range={this.state.range}/>
     }
 
+    const Map = this.state.isMapShown ? this.getMapComponent() : null;
+
     return (
       <div>
-        <HeaderComponent range={this.state.range} onSelectRange={(e) => this.onSelectRange(e)} geoLocatedCity={this.state.geoLocatedCity} />
+        <HeaderComponent range={this.state.range} onClickShowMap={(e) => this.onClickShowMap(e)} onSelectRange={(e) => this.onSelectRange(e)} geoLocatedCity={this.state.geoLocatedCity} />
 
         <div className="refresh-container"><a className='event-section__refresh' onClick={this.updateArtist}>Refresh <img className="refresh-icon" src="icons/refresh.png"></img></a></div>
         <IfEvents
@@ -197,6 +223,7 @@ class EventSection extends Component {
           similarArtists={this.state.similarArtists}
           geolocation={this.state.geolocation}
           range={this.state.range}
+          map={Map}
         />
       </div>
     )
@@ -213,9 +240,7 @@ function IfEvents(props) {
         <ul>
           {eventItems}
         </ul>
-        <div className="map-section">
-          <MapSection events={props.events} geolocation={props.geolocation}/>
-        </div>
+       { props.map }
 
         <SimilarEvents similarArtists={props.similarArtists} geolocation={props.geolocation} range={props.range}/>
       </div>
