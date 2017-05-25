@@ -72,13 +72,15 @@ class SimilarEvents extends Component {
       return null;
     }
 
+    const text = "Similar Artists' Events Near You"
+
     const similarEvents = this.state.similarEvents.map(similarEvent =>
       <EventItem key={similarEvent.eventId} event={similarEvent} />
     )
 
     return (
       <div className='similar-events'>
-        <h3>Similar Artists Events Near You</h3>
+        <h3 className='similar-heading'>{text}</h3>
         <ul>
           {similarEvents}
         </ul>

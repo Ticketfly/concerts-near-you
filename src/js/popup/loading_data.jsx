@@ -1,7 +1,8 @@
 import React from 'react';
+import "../../css/loading-data.css";
 
 const loadingStyle = {
-  width: '336px',
+  width: '360px',
   height: 'auto',
   padding: '34px 0 43px',
   textAlign: 'center',
@@ -13,8 +14,8 @@ const loadingStyle = {
 };
 
 const LoadingData = ({ artist, range }) => {
-	const rangeAlert = (range === '-1' ? "around the world!" : `within ${range} miles around you.`);
-	return (<div style={loadingStyle}>Looking for {artist} concerts {rangeAlert} </div>);
+	const rangeAlert = (range === '-1' ? "around the world!" : `within ${range} miles of your location.`);
+	return (<div style={loadingStyle}>Looking for <span className='loading-artist-name'>{artist}</span> concerts {rangeAlert} </div>);
 }
 
 export default LoadingData;
