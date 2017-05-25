@@ -11,6 +11,7 @@ class SimilarEvents extends Component {
     this.state = {
       similarArtists: props.similarArtists,
       geolocation: props.geolocation,
+      range: props.range,
       similarEvents: [],
     };
   }
@@ -25,10 +26,10 @@ class SimilarEvents extends Component {
 
   queryArtist() {
     const geolocation = this.state.geolocation;
+    const range = this.state.range;
     const promises = this.state.similarArtists.map(similarArtist => {
-      return fetch(getSecretURL(encodeURIComponent(similarArtist.name), geolocation)).then(r => r.json());
+      return fetch(getSecretURL(encodeURIComponent(similarArtist.name), geolocation, range)).then(r => r.json());
     });
-
 
     return Promise.all(promises).then((values) => {
       const list = [];
@@ -91,7 +92,8 @@ class SimilarEvents extends Component {
 
 SimilarEvents.propTypes = {
   similarEvents: PropTypes.array,
-  geolocation: PropTypes.object
+  geolocation: PropTypes.object,
+  range: PropTypes.string
 }
 
 export default SimilarEvents;
