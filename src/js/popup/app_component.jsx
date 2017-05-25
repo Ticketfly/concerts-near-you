@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import EventSection from './event_section_component';
-import SimilarArtists from './similar_artists';
+import SimilarEvents from './similar_events';
 import PropTypes from 'prop-types';
 
  class App extends Component {
@@ -8,13 +8,12 @@ import PropTypes from 'prop-types';
   render() {
   	console.log("Within App Component rendering...");
   	console.log(this.props);
-  	
+
     const { artist, similarArtists, range=50 } = this.props;
 
     return (
       <div>
-        <EventSection artist={artist} range={range} />
-        <SimilarArtists similarArtists={similarArtists} />
+        <EventSection artist={artist} similarArtists={similarArtists} range={range} />
       </div>
     );
   }
