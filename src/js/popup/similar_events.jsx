@@ -38,7 +38,7 @@ class SimilarEvents extends Component {
         if(value._embedded && value._embedded.events) {
           let newEvents = [...value._embedded.events];
 
-          newEvents = newEvents.sort((a,b) => a.distance - b.distance).map(event => {
+          newEvents = newEvents.sort((a,b) => a.distance - b.distance).slice(0, 5).map(event => {
             const date = event.dates.start.dateTime;
             const venue = event._embedded.venues[0].name;
             const city = event._embedded.venues[0].city.name;
@@ -57,8 +57,6 @@ class SimilarEvents extends Component {
               url
             };
           });
-
-          console.log('newEvents', newEvents);
 
           list.push(...newEvents);
         }
