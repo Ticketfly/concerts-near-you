@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
   	console.log("Within App Component rendering...");
   	console.log(this.props);
   	
-    const { artist, similarArtists, range } = this.props;
+    const { artist, similarArtists, range=50 } = this.props;
 
     return (
       <div>
