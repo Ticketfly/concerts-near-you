@@ -11,7 +11,7 @@ import HeaderComponent from './header_component';
 const ulStyle = {
   listStyle: 'none',
   padding: 0,
-  width: '336px'
+  width: '360px'
 };
 
 const updateStyle = {
@@ -46,13 +46,27 @@ class EventSection extends Component {
       .then((r) => r.json())
       .then((results) => {
         if (results && results.results) {
-            const geoLocatedCity = results.results[0].formatted_address;
+            const geoLocatedCity = this.parseForCity(results.results[0].address_components);
             console.log(geoLocatedCity, results);
             this.setState({
               geoLocatedCity
             });
         }
       }).catch(console.log);
+  }
+
+  parseForCity(addressComponents) {
+    const locality = this.findAddressComponentType(addressComponents, "locality");
+    const area = this.findAddressComponentType(addressComponents, "administrative_area_level_1");
+    const zip = this.findAddressComponentType(addressComponents, "postal_code");
+
+    return `${locality["long_name"]}, ${area["short_name"]} ${zip["long_name"]}`;
+  }
+
+  findAddressComponentType(components, type) {
+    return components.find((component) => {
+      return component["types"][0] === type;
+    });
   }
 
   findCurrentLocation() {
@@ -169,11 +183,12 @@ class EventSection extends Component {
     if (this.state.isLoading) {
       return <LoadingData artist={this.state.artist} range={this.state.range}/>
     }
+
     return (
       <div>
         <HeaderComponent range={this.state.range} onSelectRange={(e) => this.onSelectRange(e)} geoLocatedCity={this.state.geoLocatedCity} />
 
-        <a className='event-section__refresh' onClick={this.updateArtist}>Refresh</a>
+        <div className="refresh-container"><a className='event-section__refresh' onClick={this.updateArtist}>Refresh <img className="refresh-icon" src="icons/refresh.png"></img></a></div>
         <IfEvents
           artist={this.state.artist}
           events={this.state.events}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const noEventStyle = {
-  width: '336px',
+  width: '360px',
   height: 'auto',
   padding: '34px 0 43px',
   textAlign: 'center',

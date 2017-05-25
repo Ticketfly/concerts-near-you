@@ -5,29 +5,32 @@ const containerStyle = {
   fontFamily: 'Avenir',
   display: 'flex',
   backgroundColor: '#F8F8F8',
-  padding: '10px 5px',
-  width: 'calc(100% + 9px)',
-  marginLeft: '-9px',
-  marginTop: '-10px'
+  padding: '5px',
+  width: 'calc(100% + 10px',
+  borderBottom: '1px solid rgba(0,0,0,0.08)'
 }
 
 const linkStyle = {
   display: 'inline-block',
   flexGrow: 1,
   border: 'none',
-  background: 'none'
+  background: 'none',
+  color: '#33AF80'
 }
 
 const selectStyle = {
   display: 'inline-block',
   flexGrow: 0,
   border: 'none',
-  cursor: 'pointer'
+  cursor: 'pointer',
+  color: '#949191',
+  width: '70px'
 }
 
 const cityStyle = {
   textAlign: 'center',
-  flexGrow: 2
+  flexGrow: 2,
+  color: '#949191'
 }
 
 class HeaderComponent extends React.Component {

@@ -60,7 +60,7 @@ var options = {
       chunks: ["background"]
     }),
     new CopyWebpackPlugin([
-      { from: 'src/icons/icon32.png', to: 'icon32.png' }
+      { from: 'src/icons', to: 'icons' }
     ]),
     new WriteFilePlugin()
   ]

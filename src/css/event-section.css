@@ -1,11 +1,27 @@
 ul {
   listStyle: none;
   padding: 0;
-  width: 336px;
+  width: 360px;
+  margin: 0;
 }
 
 .event-section__refresh {
-  display: block;
+  display: inline-block;
   cursor: pointer;
   text-align: right;
+  color: #4E66AD;
+  font-size: 12px;
+  font-family: Avenir;
+}
+
+.refresh-container {
+  padding-right: 10px;
+  padding-top: 5px;
+  text-align: right;
+}
+
+.refresh-icon {
+  width: 10px;
+  height: 10px;
+  opacity: 0.9;
 }
