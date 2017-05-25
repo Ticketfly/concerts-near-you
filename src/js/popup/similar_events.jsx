@@ -12,7 +12,7 @@ class SimilarEvents extends Component {
       similarArtists: props.similarArtists,
       geolocation: props.geolocation,
       range: props.range,
-      similarEvents: [],
+      similarEvents: []
     };
   }
 
@@ -36,9 +36,10 @@ class SimilarEvents extends Component {
 
       values.forEach((value, index) => {
         if(value._embedded && value._embedded.events) {
-          let newEvents = [...value._embedded.events];
+          let events = [...value._embedded.events];
 
-          newEvents = newEvents.sort((a,b) => a.distance - b.distance).map(event => {
+          let similarEventsTop5 = events.sort((a,b) => a.distance - b.distance).slice(0, 5);
+          similarEventsTop5 = similarEventsTop5.map(event => {
             const date = event.dates.start.dateTime;
             const venue = event._embedded.venues[0].name;
             const city = event._embedded.venues[0].city.name;
@@ -58,9 +59,7 @@ class SimilarEvents extends Component {
             };
           });
 
-          console.log('newEvents', newEvents);
-
-          list.push(...newEvents);
+          list.push(...similarEventsTop5);
         }
       });
 
@@ -93,7 +92,7 @@ class SimilarEvents extends Component {
 SimilarEvents.propTypes = {
   similarEvents: PropTypes.array,
   geolocation: PropTypes.object,
-  range: PropTypes.string
+  range: PropTypes.number
 }
 
 export default SimilarEvents;
