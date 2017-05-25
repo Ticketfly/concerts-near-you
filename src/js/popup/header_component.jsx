@@ -37,7 +37,7 @@ class HeaderComponent extends React.Component {
   render() {
     return (
       <div style={containerStyle}>
-        <button style={linkStyle}>Show Map</button>
+        <button style={linkStyle} onClick={this.props.onClickShowMap}>Show Map</button>
         <select value={this.props.range} onChange={this.props.onSelectRange} style={selectStyle}>
           <option value="1">1 Mile</option>
           <option value="50">50 Miles</option>

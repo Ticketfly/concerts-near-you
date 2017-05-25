@@ -7,6 +7,8 @@ import LoadingData from './loading_data';
 import SimilarEvents from './similar_events';
 import "../../css/event-section.css";
 import HeaderComponent from './header_component';
+import MapSection from './map_section_component';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 const ulStyle = {
   listStyle: 'none',
@@ -19,11 +21,17 @@ const updateStyle = {
   cursor: 'pointer'
 }
 
+const mapStyle = {
+  position: 'absolute',
+  bottom: '0',
+  left: '0',
+  width: '100%',
+  boxShadow: 'rgba(0, 0, 0, 0.15) 0px -10px 20px 0px'
+}
+
 class EventSection extends Component {
   constructor(props) {
     super(props);
-
-    console.log('props', props);
 
     this.state = {
       artist: props.artist,
@@ -32,6 +40,7 @@ class EventSection extends Component {
       events: [],
       isLoading: false,
       range: props.range,
+      isMapShown: false,
       geoLocatedCity: 'San Francisco, CA 94107',
       url: getSecretURL(encodeURIComponent(props.artist), null, props.range) // this will hopefully change tomorrow ^^
     };
@@ -126,6 +135,7 @@ class EventSection extends Component {
             const image = event.images[0].url;
             const id = event.id;
             const url = event.url;
+            const location = event._embedded.venues[0].location;
 
             return {
               date,
@@ -134,7 +144,9 @@ class EventSection extends Component {
               image,
               city,
               eventId: id,
-              url
+              url,
+              lat: parseFloat(location.latitude),
+              lng: parseFloat(location.longitude)
             };
           })
         });
@@ -179,14 +191,38 @@ class EventSection extends Component {
     });
   }
 
+  onClickShowMap(e) {
+    const isMapShown = this.state.isMapShown;
+    this.setState({
+      isMapShown: !isMapShown
+    });
+  }
+
+  getMapComponent() {
+    return  (<CSSTransitionGroup
+            transitionName="map-animation"
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={300}
+            transitionAppear={true}
+            transitionAppearTimeout={500}
+            transitionEnter={false}
+            transitionLeave={false}>
+            <div style={mapStyle} className="map-section">
+              <MapSection events={this.state.events} geolocation={this.state.geolocation}/>
+            </div>
+          </CSSTransitionGroup>)
+}
+
   render() {
     if (this.state.isLoading) {
       return <LoadingData artist={this.state.artist} range={this.state.range}/>
     }
 
+    const Map = this.state.isMapShown ? this.getMapComponent() : null;
+
     return (
       <div>
-        <HeaderComponent range={this.state.range} onSelectRange={(e) => this.onSelectRange(e)} geoLocatedCity={this.state.geoLocatedCity} />
+        <HeaderComponent range={this.state.range} onClickShowMap={(e) => this.onClickShowMap(e)} onSelectRange={(e) => this.onSelectRange(e)} geoLocatedCity={this.state.geoLocatedCity} />
 
         <div className="refresh-container"><a className='event-section__refresh' onClick={this.updateArtist}>Refresh <img className="refresh-icon" src="icons/refresh.png"></img></a></div>
         <IfEvents
@@ -195,6 +231,7 @@ class EventSection extends Component {
           similarArtists={this.state.similarArtists}
           geolocation={this.state.geolocation}
           range={this.state.range}
+          map={Map}
         />
       </div>
     )
@@ -211,10 +248,10 @@ function IfEvents(props) {
         <ul>
           {eventItems}
         </ul>
+       { props.map }
 
         <SimilarEvents similarArtists={props.similarArtists} geolocation={props.geolocation} range={props.range}/>
       </div>
-
     );
   }
   return <NoEvents artist={props.artist}/>
