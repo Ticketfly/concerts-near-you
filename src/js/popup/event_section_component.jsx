@@ -188,8 +188,8 @@ class EventSection extends Component {
 
 function IfEvents(props) {
   if (props.events.length) {
-    const eventItems = props.events.map(event =>
-      <EventItem key={event.eventId} event={event} />
+    const eventItems = props.events.map((event, idx) =>
+      <EventItem key={`${event.eventId}${idx}`} event={event} />
     );
     return (
       <div>
