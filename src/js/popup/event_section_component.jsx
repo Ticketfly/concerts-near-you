@@ -4,6 +4,7 @@ import NoEvents from './no_events_component';
 import PropTypes from 'prop-types';
 import { getSecretURL } from "secrets";
 import LoadingData from './loading_data';
+import InputComponent from './input_component';
 
 const ulStyle = {
   listStyle: 'none',
@@ -130,12 +131,20 @@ class EventSection extends Component {
     });
   }
 
+  onInputChange(e) {
+    const inputValue = e.target.value;
+    this.setState({
+      inputValue
+    })
+  }
+
   render() {
     if (this.state.isLoading) {
       return <LoadingData artist={this.state.artist}/>
     }
     return (
       <div>
+        <InputComponent inputValue={this.state.inputValue} onInputChange={(e) => this.onInputChange(e)} />
         <a style={updateStyle} onClick={this.updateArtist}>Refresh</a>
         <IfEvents events={this.state.events}/>
       </div>
