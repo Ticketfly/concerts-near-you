@@ -2,6 +2,11 @@ import { TICKETMASTER_API_KEY } from "secrets";
 
 export default function getSecretURL(keyword, geolocation, radius=50, apikey=TICKETMASTER_API_KEY) {
   const latlong = geolocation ? `${geolocation.latitude},${geolocation.longitude}` : null;
+  
+  if (radius === "-1") {
+    radius = 10000;
+  }
+  
   const params = Object.entries({
     keyword,
     latlong,

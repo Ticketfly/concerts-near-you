@@ -42,7 +42,6 @@ class EventSection extends Component {
   }
 
   getGeolocationData(lat = this.state.geolocation.latitude, lng = this.state.geolocation.longitude) {
-    debugger;
     fetch(`http://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}`)
       .then((r) => r.json())
       .then((results) => {

@@ -13,21 +13,21 @@ const containerStyle = {
 
 const linkStyle = {
   display: 'inline-block',
-  'flexGrow': 1,
+  flexGrow: 1,
   border: 'none',
   background: 'none'
 }
 
 const selectStyle = {
   display: 'inline-block',
-  'flexGrow': 0,
+  flexGrow: 0,
   border: 'none',
   cursor: 'pointer'
 }
 
 const cityStyle = {
   textAlign: 'center',
-  flexGros: '2'
+  flexGrow: 2
 }
 
 class HeaderComponent extends React.Component {

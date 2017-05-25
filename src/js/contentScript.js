@@ -145,3 +145,8 @@ function updateArtistData(artist, similarArtists) {
   });
 }
 
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.type === "UPDATE_ARTIST_SELECTOR") {
+    raf = window.requestAnimationFrame(onArtistLoad);
+  }
+});
