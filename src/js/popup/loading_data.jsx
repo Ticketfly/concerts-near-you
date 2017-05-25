@@ -13,9 +13,27 @@ const loadingStyle = {
   color: '#585858'
 };
 
+const loadingContainer = {
+  textAlign: 'center'
+};
+
+const loadingIconStyle = {
+  width: '100px',
+  height: '100px',
+  textAlign: 'center',
+  marginTop: '-30px',
+  padding: '0',
+  display: 'inline-block'
+};
+
 const LoadingData = ({ artist, range }) => {
-	const rangeAlert = (range === '-1' ? "around the world!" : `within ${range} miles of your location.`);
-	return (<div style={loadingStyle}>Looking for <span className='loading-artist-name'>{artist}</span> concerts {rangeAlert} </div>);
+	const rangeAlert = (range === '-1' ? "around the world!" : `within ${range} miles around you.`);
+	return (
+    <div>
+      <div style={loadingStyle}>Looking for <span className='loading-artist-name'>{artist}</span> concerts {rangeAlert} </div>
+      <div style={loadingContainer}><img src='icons/loader.png' style={loadingIconStyle}/></div>
+    </div>
+  );
 }
 
 export default LoadingData;
