@@ -90,7 +90,7 @@ class SimilarEvents extends Component {
 SimilarEvents.propTypes = {
   similarEvents: PropTypes.array,
   geolocation: PropTypes.object,
-  range: PropTypes.number
+  range: PropTypes.string
 }
 
 export default SimilarEvents;

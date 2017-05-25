@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
   render() {
   	console.log("Within App Component rendering...");
   	console.log(this.props);
-
-    const { artist, similarArtists, range=50 } = this.props;
+  	
+    const { artist, similarArtists, range="50" } = this.props;
 
     return (
       <div>
