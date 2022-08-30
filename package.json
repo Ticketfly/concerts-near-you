@@ -15,7 +15,7 @@
     "fs-extra": "^0.30.0",
     "html-webpack-plugin": "2.24.1",
     "moment": "^2.18.1",
-    "moment-timezone": "^0.5.13",
+    "moment-timezone": "^0.5.35",
     "prop-types": "^15.5.10",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
